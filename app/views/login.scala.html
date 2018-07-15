@@ -1,0 +1,7 @@
+@(login :Form[models.LoginForm.Data])(implicit messagesProvider :MessagesProvider)
+
+@helper.form(routes.HomeController.loginSumit()){
+  @helper.inputText(login("username"))
+  @helper.inputText(login("password"))
+  <button>Login</button>
+}

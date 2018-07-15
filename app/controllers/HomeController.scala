@@ -9,7 +9,9 @@ import play.api.mvc._
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents, messagesAction: MessagesActionBuilder) extends AbstractController(cc)  with play.api.i18n.I18nSupport {
+  import models.LoginForm._
+  import models.LoginForm
 
   /**
    * Create an Action to render an HTML page.
@@ -19,10 +21,14 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * a path of `/`.
    */
   def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index());
+    Ok(views.html.index())
   }
 
-  def login() = Action {
-    Ok(views.html.login());
+  def login() = Action {  implicit request =>
+    Ok(views.html.login(form))
+  }
+
+  def loginSumit = Action { implicit request: Request[AnyContent] =>
+      Redirect(routes.HomeController.index())
   }
 }
